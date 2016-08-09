@@ -9,9 +9,9 @@
         </div>
 
         <form:form action="${pageContext.request.contextPath}/admin/productInventory/addProduct" method="post"
-                   commandName="product" enctype="multipart/form-data">
+                   commandName="product">
             <div class="form-group">
-                <label for="name">Name</label>
+                <label for="name">Name</label><form:errors path="productName" cssStyle="color: red"/>
                 <form:input path="productName" id="name" cssClass="form-control"/>
             </div>
             <div class="form-group">
@@ -28,7 +28,7 @@
                 <form:textarea path="productDescription" id="description" cssClass="form-control"/>
             </div>
             <div class="form-group">
-                <label for="price">Price</label>
+                <label for="price">Price</label><form:errors path="productPrice" cssStyle="color: red"/>
                 <form:input path="productPrice" id="price" cssClass="form-control"/>
             </div>
             <div class="form-group">
@@ -46,7 +46,7 @@
                     <form:radiobutton path="productStatus" id="status" value="inactive"/>Sold Out</label>
             </div>
             <div class="form-group">
-                <label for="stock">Unit in Stock</label>
+                <label for="stock">Unit in Stock</label><form:errors path="productStock" cssStyle="color: red"/>
                 <form:input path="productStock" id="stock" cssClass="form-control"/>
             </div>
 
@@ -55,10 +55,10 @@
                 <form:input path="productManufacture" id="manufacturer" cssClass="form-control"/>
             </div>
 
-            <div class="form-group">
+            <%--<div class="form-group">
                 <label class="control-label" for="productImage">Upload Picture</label>
                 <form:input path="productImage" id="productImage" type="file" class="form:input-large"/>
-            </div>
+            </div>--%>
 
             <br><br>
             <input type="submit" value="submit" class="btn btn-default btn-success">

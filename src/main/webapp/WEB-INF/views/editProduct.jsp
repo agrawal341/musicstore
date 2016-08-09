@@ -9,7 +9,7 @@
         </div>
 
         <form:form action="${pageContext.request.contextPath}/admin/productInventory/editProduct" method="post"
-                   commandName="product" enctype="multipart/form-data">
+                   commandName="product" > <%--enctype="multipart/form-data"--%>
             <form:hidden path="productId" value="${product.productId}"/>
             <div class="form-group">
                 <label for="name">Name</label>
@@ -56,10 +56,10 @@
                 <form:input path="productManufacture" id="manufacturer" cssClass="form-control" value="${product.productManufacture}"/>
             </div>
 
-            <div class="form-group">
+         <%--   <div class="form-group">
                 <label class="control-label" for="productImage">Upload Picture</label>
                 <form:input path="productImage" id="productImage" type="file" class="form:input-large"/>
-            </div>
+            </div>--%>
 
             <br><br>
             <input type="submit" value="submit" class="btn btn-default btn-success">

@@ -1,31 +1,37 @@
 package com.emusicstore.model;
 
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 
 @Entity
 public class Product {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    //   @Column(name="ID")
+    @SequenceGenerator(name = "productSeq", sequenceName = "CUSTOMER_SEQ", allocationSize = 1)
+    @GeneratedValue(generator = "productSeq")
+    @Column(name = "PROD_ID")
     private Long productId;
-   // @Column(name = "NAME")
+    @NotEmpty(message = "The product name must not be null.")
+    @Column(name = "NAME")
     private String productName;
-  //  @Column(name = "CATEGORY")
+    @Column(name = "CATEGORY")
     private String productCategory;
-   // @Column(name = "DESCRIPTION")
+    @Column(name = "DESCRIPTION")
     private String productDescription;
-  //  @Column(name = "PRICE")
+    @Min(value = 0, message = "The product price must not be less than 0")
+    @Column(name = "PRICE")
     private Long productPrice;
-  //  @Column(name = "CONDITION")
+    @Column(name = "CONDITION")
     private String productCondition;
-  //  @Column(name = "STATUS")
+    @Column(name = "STATUS")
     private String productStatus;
- //   @Column(name = "STOCK")
+    @Min(value = 0, message = "The product stock must not be less than 0")
+    @Column(name = "STOCK")
     private Long productStock;
- //   @Column(name = "MANUFACTURER")
+    @Column(name = "MANUFACTURER")
     private String productManufacture;
 
     @Transient
@@ -47,7 +53,6 @@ public class Product {
         this.productId = productId;
     }
 
-
     public String getProductManufacture() {
         return productManufacture;
     }
@@ -55,7 +60,6 @@ public class Product {
     public void setProductManufacture(String productManufacture) {
         this.productManufacture = productManufacture;
     }
-
 
     public String getProductName() {
         return productName;
@@ -80,7 +84,6 @@ public class Product {
     public void setProductDescription(String productDescription) {
         this.productDescription = productDescription;
     }
-
 
     public String getProductCondition() {
         return productCondition;

@@ -3,7 +3,9 @@ package com.emusicstore.controller;
 import com.emusicstore.dao.ProductDAO;
 import com.emusicstore.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,17 +13,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
-/**
- * Created by Balram on 8/2/2016.
- */
-//This is Admin Controller
+@Controller
 public class AdminController {
-    private Path path;
+    //private Path path;
 
     @Autowired
     private ProductDAO productDAO;
@@ -52,12 +52,17 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/admin/productInventory/addProduct", method = RequestMethod.POST)
-    public String addProductPost(@ModelAttribute("product") Product product, HttpServletRequest request) {
+    public String addProductPost(@Valid @ModelAttribute("product") Product product, BindingResult result, HttpServletRequest request) {
+        System.out.println("======================================"+product.getProductName());
+
+        if(result.hasErrors()){
+            return "addProduct";
+        }
         productDAO.addProduct(product);
 
-        MultipartFile productImage = product.getProductImage();
+      /*  MultipartFile productImage = product.getProductImage();
         String rootDirectory = request.getSession().getServletContext().getRealPath("/");
-        path = Paths.get(rootDirectory + "\\WEB-INF\\resources\\images\\" + product.getProductId() + ".png");
+        path = Paths.get(rootDirectory + "\\WEB-INF\\resources\\images\\\" + product.getProductId() + \".png");
 
         if (productImage != null && !productImage.isEmpty()) {
             try {
@@ -66,7 +71,7 @@ public class AdminController {
                 e.printStackTrace();
                 throw new RuntimeException("Product Image Saving Failed...", e);
             }
-        }
+        }*/
 
         return "redirect:/admin/productInventory";
     }
@@ -87,9 +92,13 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/admin/productInventory/editProduct", method = RequestMethod.POST)
-    public String editProductPost(@ModelAttribute("product") Product product, Model model, HttpServletRequest request) {
+    public String editProductPost(@Valid @ModelAttribute("product") Product product, Model model, BindingResult result,HttpServletRequest request) {
 
-        MultipartFile productImage = product.getProductImage();
+        if(result.hasErrors()){
+            return "addProduct";
+        }
+
+        /*MultipartFile productImage = product.getProductImage();
         String rootDirectory = request.getSession().getServletContext().getRealPath("/");
         path = Paths.get(rootDirectory + "\\WEB-INF\\resources\\images\\" + product.getProductId() + ".png");
 
@@ -101,11 +110,9 @@ public class AdminController {
                 throw new RuntimeException("Product Image Saving Failed while editing...", e);
             }
         }
-
+*/
         productDAO.editProduct(product);
 
         return "redirect:/admin/productInventory";
     }
-
-
 }
